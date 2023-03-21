@@ -21,11 +21,17 @@ const userSignUp = async (req: Request, res: Response, next: NextFunction) => {
             email: req.body.email,
             password: hash,
           });
-          const result = await newUser.save();
-          console.log(result);
-          res.status(200).json({
-            message: "User created",
-          });
+          try {
+            const result = await newUser.save();
+            console.log(result);
+            res.status(200).json({
+              message: "User created",
+            });
+          } catch (error) {
+            res.status(500).json({
+              message: error,
+            });
+          }
         }
       });
     }
