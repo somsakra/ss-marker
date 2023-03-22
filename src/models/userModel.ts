@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 interface IUser {
   _id: typeof mongoose.Schema.Types.ObjectId;

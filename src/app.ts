@@ -1,13 +1,10 @@
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from "./config";
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes";
-import dotenv from "dotenv";
+import noteRoutes from "./routes/noteRoutes";
 
-dotenv.config();
 const app = express();
-
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
-console.log(DB_USER);
 
 const dbConnect = async () => {
   try {
@@ -30,6 +27,7 @@ app.use(
 );
 
 app.use("/user", userRoutes);
+app.use("/note", noteRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
