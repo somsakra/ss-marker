@@ -14,15 +14,17 @@ interface CustomRequest extends Request {
 }
 
 const getAllNote = async (req: Request, res: Response, next: NextFunction) => {
+  console.log((req as CustomRequest).userData);
   try {
     const doc = await Note.find({
       userId: (req as CustomRequest).userData.userId,
     })
       .select("_id title content isDone")
       .exec();
+    console.log(doc);
     const response = {
       count: doc.length,
-      note: doc.map((doc) => {
+      notes: doc.map((doc) => {
         return {
           title: doc.title,
           content: doc.content,

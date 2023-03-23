@@ -66,7 +66,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
           },
           SECRET_TOKEN as string,
           {
-            expiresIn: "1h",
+            expiresIn: "24h",
           }
         );
         return res.status(200).json({

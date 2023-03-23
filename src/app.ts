@@ -3,6 +3,8 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes";
 import noteRoutes from "./routes/noteRoutes";
+import cors from "cors";
+import morgan from "morgan";
 
 const app = express();
 
@@ -19,6 +21,8 @@ const dbConnect = async () => {
 
 dbConnect();
 
+app.use(cors());
+app.use(morgan("tiny"));
 app.use(express.json());
 app.use(
   express.urlencoded({

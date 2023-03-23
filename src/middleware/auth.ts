@@ -7,6 +7,7 @@ interface CustomRequest extends Request {
 }
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.headers.authorization);
   try {
     if (!req.headers.authorization) {
       return res.status(401).json({
