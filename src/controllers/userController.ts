@@ -1,9 +1,18 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, response } from "express";
 import User from "../models/userModel";
 import { SECRET_TOKEN } from "../config";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+interface CustomRequest extends Request {
+  userData:
+    | {
+        email: string;
+        userId: typeof mongoose.Schema.Types.ObjectId;
+      }
+    | JwtPayload;
+}
 
 const userSignUp = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -45,6 +54,7 @@ const userSignUp = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const userLogin = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.body);
   try {
     const user = await User.findOne({ email: req.body.email }).exec();
     if (!user) {
@@ -71,6 +81,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
         );
         return res.status(200).json({
           message: "Authentication successful",
+          email: req.body.email,
           token: token,
         });
       } else {
@@ -81,10 +92,27 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({
-      error: err,
-    });
+    return res.status(500).json({ error: err });
   }
 };
 
-export { userSignUp, userLogin };
+const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
+  console.log((req as CustomRequest).userData);
+  try {
+    const user = await User.findOne({
+      email: (req as CustomRequest).userData.email,
+    }).exec();
+    if (user) {
+      const response = {
+        email: user.email,
+      };
+      return res.status(200).json(response);
+    }
+    return res.status(401).json({ message: "please re-login" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: err });
+  }
+};
+
+export { userSignUp, userLogin, getUserInfo };
