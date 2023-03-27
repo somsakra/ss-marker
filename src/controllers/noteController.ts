@@ -105,4 +105,18 @@ const getNote = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getAllNote, createNewNote, getNote };
+const deleteNote = async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.NoteId;
+  try {
+    const result = await Note.deleteOne({ _id: id }).exec();
+
+    if (result) {
+      res.status(200).json({ message: "Note Deleted" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};
+
+export { getAllNote, createNewNote, getNote, deleteNote };
