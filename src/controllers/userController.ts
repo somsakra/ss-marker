@@ -114,6 +114,7 @@ const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
         }
       );
       const response = {
+        message: "Authentication successful",
         email: user.email,
         refreshToken: token,
       };

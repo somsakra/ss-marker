@@ -63,6 +63,7 @@ const createNewNote = async (
         title: result.title,
         content: result.content,
         _id: result._id,
+        isDone: false,
         request: {
           type: "GET",
           url: APP_URL + "/note/" + result._id,
