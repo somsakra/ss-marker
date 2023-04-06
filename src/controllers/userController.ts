@@ -103,8 +103,19 @@ const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
       email: (req as CustomRequest).userData.email,
     }).exec();
     if (user) {
+      const token = jwt.sign(
+        {
+          email: user.email,
+          userId: user._id,
+        },
+        SECRET_TOKEN as string,
+        {
+          expiresIn: "24h",
+        }
+      );
       const response = {
         email: user.email,
+        refreshToken: token,
       };
       return res.status(200).json(response);
     }
