@@ -29,7 +29,7 @@ const getAllNote = async (req: Request, res: Response, next: NextFunction) => {
           title: doc.title,
           content: doc.content,
           isDone: doc.isDone,
-          _id: doc._id,
+          id: doc._id,
           request: {
             type: "GET",
             url: APP_URL + "/note/" + doc._id,
@@ -62,7 +62,7 @@ const createNewNote = async (
       createdNote: {
         title: result.title,
         content: result.content,
-        _id: result._id,
+        id: result._id,
         isDone: false,
         request: {
           type: "GET",
