@@ -7,7 +7,6 @@ interface CustomRequest extends Request {
 }
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.headers.authorization);
   try {
     if (!req.headers.authorization) {
       return res.status(401).json({
@@ -17,7 +16,6 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, SECRET_TOKEN as string);
     (req as CustomRequest).userData = decoded;
-    console.log((req as CustomRequest).userData);
     next();
   } catch (error) {
     return res.status(401).json({

@@ -10,6 +10,21 @@ services:
       - mongo_data:/data/db
     ports:
       - 27017:27017
+  
+  marker:
+    depends_on:
+      - mongo
+    build: .
+    container_name: ss-marker
+    environment:
+      DB_USER: marker
+      DB_PASSWORD: marker1234
+      DB_HOST: mongo
+      DB_NAME: marker
+      APP_URL: localhost:3001
+      SECRET_TOKEN: ThisIsTheVeryLognSecretToken
+    ports:
+      - 3001:3001
 
 volumes:
   mongo_data:

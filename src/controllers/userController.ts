@@ -33,7 +33,6 @@ const userSignUp = async (req: Request, res: Response, next: NextFunction) => {
           });
           try {
             const result = await newUser.save();
-            console.log(result);
             res.status(200).json({
               message: "User created",
             });
@@ -54,7 +53,6 @@ const userSignUp = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const userLogin = async (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.body);
   try {
     const user = await User.findOne({ email: req.body.email }).exec();
     if (!user) {
@@ -97,7 +95,6 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
-  console.log((req as CustomRequest).userData);
   try {
     const user = await User.findOne({
       email: (req as CustomRequest).userData.email,
